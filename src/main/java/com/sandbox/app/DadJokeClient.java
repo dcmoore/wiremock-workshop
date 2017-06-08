@@ -1,6 +1,7 @@
 package com.sandbox.app;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -28,10 +29,12 @@ class DadJokeClient {
                 .url(url)
                 .build();
 
-        ResponseBody response = httpClient.newCall(request).execute().body();
-        if (response != null) {
-            return extractJokeFromResponse(response.string());
-        }
+        try {
+            ResponseBody response = httpClient.newCall(request).execute().body();
+            if (response != null) {
+                return extractJokeFromResponse(response.string());
+            }
+        } catch (JsonSyntaxException e) { /* do nothing */ }
 
         return null;
     }

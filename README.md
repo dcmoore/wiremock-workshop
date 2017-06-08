@@ -1,37 +1,20 @@
 # WireMock Tutorial
 
-__The point of this project is to provide a space where you can remove yourself from all frameworks and experiment with Java Syntax for the sake of learning how something works in Java.__
+__This is a simple application that tells dad jokes. The tests are intionally missing to give people the opportunity to write some tests using [WireMock](http://wiremock.org/).__
 
 To execute the program do the following:
 
 ```bash
-mvn jar:jar
-java -jar target/JavaSandbox-1.0-SNAPSHOT.jar
+mvn clean package
+java -jar target/WireMockWorkshop-1.0-SNAPSHOT.jar
 ```
 
+## Steps
 
+1. Create a happy path test in DadJokeTellerTest
+  a. You'll want to learn about WireMockRule and stubFor
+  b. You'll need to use Mockito to assert that io.display is displaying the right stuff
+2. Create another test in DadJokeTellerTest that tests the case where unexpected JSON gets returned
+3. Experiment with running WireMock as a standalone process. Try doing a record and playback.
 
-
-1. Setup proxy
-2. Record successful response
-3. Stub failure response
-
-
-
-
-
-
-
-
-
-
-
-
-
-how we did it
-
-- mvn install
-- java -jar $MAVEN_HOME/repository/com/github/tomakehurst/wiremock-standalone/2.6.0/wiremock-standalone-2.6.0.jar
-  --proxy-all="https://icanhazdadjoke.com/"
-  --record-mappings --verbose
-
+Feel free to use the [WireMock Getting Started Guide](http://wiremock.org/docs/getting-started/) to help you along the process.

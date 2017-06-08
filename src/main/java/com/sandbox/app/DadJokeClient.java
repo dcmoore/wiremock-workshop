@@ -1,35 +1,46 @@
 package com.sandbox.app;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.io.InputStream;
+import com.google.gson.Gson;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
+
 import java.io.IOException;
-import java.net.URL;
-import javax.net.ssl.HttpsURLConnection;
-import java.security.cert.Certificate;
 
 class DadJokeClient {
-  public String getNextJoke() throws IOException {
-    String httpsURL = "https://icanhazdadjoke.com/";
-    URL myurl = new URL(httpsURL);
-    HttpsURLConnection con = (HttpsURLConnection)myurl.openConnection();
-    con.setRequestProperty("User-Agent", "Greatest Java Application Ever");
-    con.setRequestProperty("Accept", "application/json");
 
-    InputStream ins = con.getInputStream();
-    InputStreamReader isr = new InputStreamReader(ins);
-    BufferedReader in = new BufferedReader(isr);
+    private final OkHttpClient httpClient = new OkHttpClient();
+    private final Gson gson = new Gson();
 
-    String response = in.readLine();
-    in.close();
+    private final String url;
 
-    return extractJokeFromResponse(response);
-  }
+    DadJokeClient() {
+        this("https://icanhazdadjoke.com/");
+    }
 
-  private String extractJokeFromResponse(String response) {
-    // Gson gson = new Gson();
-    // gson.toJson(response);
-    return response;
-  }
+    DadJokeClient(String url) {
+        this.url = url;
+    }
+
+    final String getNextJoke() throws IOException {
+        Request request = new Request.Builder()
+                .addHeader("Accept", "application/json")
+                .url(url)
+                .build();
+
+        ResponseBody response = httpClient.newCall(request).execute().body();
+        if (response != null) {
+            return extractJokeFromResponse(response.string());
+        }
+
+        return null;
+    }
+
+    private String extractJokeFromResponse(String response) {
+        return gson.fromJson(response, Response.class).joke;
+    }
+
+    private class Response {
+        String joke;
+    }
 }

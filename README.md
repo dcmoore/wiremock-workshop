@@ -1,6 +1,6 @@
 # WireMock Tutorial
 
-__This is a simple application that tells dad jokes. The tests are intionally missing to give people the opportunity to write some tests using [WireMock](http://wiremock.org/).__
+__This is a simple application that tells dad jokes. The tests are intentionally missing to give people the opportunity to write some tests using [WireMock](http://wiremock.org/).__
 
 To execute the program do the following:
 
